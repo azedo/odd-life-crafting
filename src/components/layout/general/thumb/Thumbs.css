@@ -1,0 +1,40 @@
+.thumbs-grid {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.thumb {
+  min-width: 300px;
+  max-width: 500px;
+  background: lightgray;
+  margin: 10px;
+  height: 250px;
+  flex: 1;
+  opacity: 0.5;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.thumb:hover {
+    opacity: 1;
+}
+
+.thumb__desc {
+  opacity: 0;
+  transition: all 0.5s;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  background: rgba(0,0,0,0.7);
+  width: 100%;
+  color: white;
+}
+
+.thumb:hover .thumb__desc {
+    opacity: 1;
+    bottom: 0px;
+}

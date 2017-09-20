@@ -1,0 +1,17 @@
+TODOs
+=====
+
+-4 YouTube subscribe button
+-4 Loading states for the transitions (visual loader)
+-2 Wait for everything to load before showing the page?
+-5 Main page (according to notes)
+
+
+WORKFLOW TODOS
+==============
+
+-5 BUILD PROCESS:
+-4 Create php file instead of html (root level)
+-3 Create a style.css file (empty but with the related comments for adding into wordpress).
+-4 Add PRODUCTION and DEVELOPMENT environments - basically for the variables.
+-4 Create a ZIP (compressed file)

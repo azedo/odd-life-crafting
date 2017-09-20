@@ -1,0 +1,18 @@
+.imageGrid__grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.imageGrid__cell {
+  flex: 1;
+}
+
+.imageGrid__modal-image {
+  height: 100%;
+  transform: translateX(-50%);
+  left: 50%;
+  position: relative;
+}

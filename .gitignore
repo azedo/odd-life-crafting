@@ -8,6 +8,8 @@
 
 # production
 /build
+/build-temp
+/wordpress
 
 # misc
 .DS_Store

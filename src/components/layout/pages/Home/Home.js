@@ -1,79 +1,92 @@
-import React, { Component, PropTypes } from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from 'react-router-dom'
+import React, { Component } from 'react'
+import _ from 'lodash'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import moment from 'moment'
+import axios from 'axios'
 
-import Intro from '../../../layout/intro/Intro'
-import Menu from '../../../layout/general/menu/Menu'
-import Thumb from '../../general/thumb/Thumb'
+import GLOBAL_VARS from '../../../../global_vars'
 
-import Video from '../../../layout/pages/Video/Video'
+import Gallery from '../../../layout/pages/Gallery/Gallery'
+import BlogItem from '../../../layout/pages/Blog/BlogItem'
 
+import './Home.css'
 
-class Home extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      showIntro: true
+      isLoading: true,
+      blog: null,
+      episodes: null
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.props.episodes !== nextProps.episodes) {
+      this.setState({
+        episodes: nextProps.episodes
+      })
     }
 
-    this._onScrollEvent = this._onScrollEvent.bind(this)
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this._onScrollEvent);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScrollEvent);
-  }
-
-  _onScrollEvent() {
-    console.log('it\'s scrolling!!')
-
-    let innerHeight = window.innerHeight,
-        scroll      = document.body.scrollTop,
-        hightHalf   = innerHeight / 2
-
-    if (scroll >= innerHeight && this.state.showIntro) {
-      this.setState({ showIntro: false })
+    if (this.props.blog !== nextProps.blog) {
+      this.setState({
+        blog: nextProps.blog
+      })
     }
   }
 
   render() {
     return (
-      <div className="app">
-        {( this.state.showIntro && <Intro /> )}
+      <div>
+        <CSSTransitionGroup
+          component='div'
+          className='videos-list'
+          transitionName='fadein'
+          transitionAppear={true}
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+        >
+          <h3 className='page-title'>Latests videos</h3>
+          <Gallery
+            howManyEpisodes={9}
+            episodes={this.state.episodes}
+            link={
+              (this.state.episodes !== null)
+                ? this.state.episodes[0].link
+                : null
+            }
+          />
+        </CSSTransitionGroup>
 
-        <div className="main-content">
-          <Menu />
+        <div className='blog-posts'>
+          <h3 className='page-title'>Latests posts</h3>
 
-          <p>{this.props.match.url}</p>
+          <div className='blog-posts-grid'>
+            {this.state.blog !== null && this.state.blog.map((post) => {
+              const day = moment(new Date(post.date)).format('DD')
+              const month = moment(new Date(post.date)).format('MM')
+              const year = moment(new Date(post.date)).format('YYYY')
 
-          <Switch>
-            <Route path={`${this.props.match.url}/videos`} component={Video} />
-            <Route path={`${this.props.match.url}/videos/:id`} component={Video} />
-          </Switch>
-
-          <div className="thumbs-grid">
-            <Thumb />
-            <Thumb />
-            <Thumb />
-            <Thumb />
-            <Thumb />
+              return (
+                <BlogItem
+                  key={post.id}
+                  id={post.id}
+                  date={{
+                    day: year,
+                    month: month,
+                    year: year
+                  }}
+                  url={`/blog/${year}/${month}/${day}/${post.slug}`}
+                  title={post.title.rendered}
+                  content={post.excerpt.rendered}
+                />
+              )
+            })}
           </div>
         </div>
       </div>
     )
   }
 }
-
-Home.propTypes = {
-  //myProp: PropTypes.string.isRequired
-}
-
-export default Home

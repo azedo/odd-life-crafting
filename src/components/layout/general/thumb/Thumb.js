@@ -1,28 +1,26 @@
 import React from 'react'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { Link } from 'react-router-dom'
 
 import './Thumbs.css'
 
 
-const Thumb = () =>(
-  <CSSTransitionGroup
-    component="div"
-    className="thumb"
-    transitionName="fade"
-    transitionAppear={true}
-    transitionAppearTimeout={500}
-    transitionEnterTimeout={300}
-    transitionLeaveTimeout={300}
-    style={{ backgroundImage: 'url(https://unsplash.it/300?random)', backgroundSize: 'cover', backgroundPosition: 'center' }}
-  >
+const Thumb = ({ url, title, background }) => {
+  const imageUrl = `http://img.youtube.com/vi/${background}/hqdefault.jpg`
 
-    <a href="#">
-      <div className="thumb__desc">
-        <p>thumb</p>
+  return (
+    <Link to={url} className="thumb_link">
+      <div
+        className="thumb"
+        style={{
+          backgroundImage: `url(${imageUrl})`
+        }}
+      >
+        <div className="thumb__desc">
+          <p dangerouslySetInnerHTML={{__html: title}}></p>
+        </div>
       </div>
-    </a>
-
-  </CSSTransitionGroup>
-)
+    </Link>
+  )
+}
 
 export default Thumb

@@ -1,36 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import {
   BrowserRouter as Router,
-  Route,
-  Switch
+  Route
 } from 'react-router-dom'
-import Home from './components/layout/pages/Home/Home'
-import Video from './components/layout/pages/Video/Video'
+import Container from './components/layout/Container'
 
-import './index.css';
-
+import './index.css'
 
 
 
-const NoMatch = ({ location }) => (
-  <div>
-    <h3>APP -> No match for <code>{location.pathname}</code></h3>
-  </div>
-)
+class Routes extends Component {
+  constructor(props) {
+    super(props)
 
+    this.state = {
+      lang: ''
+    }
+  }
 
+  componentWillMount() {
+    let lang = window.navigator.language
 
-const Routes = () => (
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route component={NoMatch}/>
-      </Switch>
-    </div>
-  </Router>
-)
+    if (lang.startsWith('en')) { lang = 'en' }
+    else { lang = 'pt' }
+
+    this.setState({ lang })
+  }
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <Route
+            path="/"
+            render={(props) => <Container {...props} lang={this.state.lang} />}
+          />
+        </div>
+      </Router>
+    )
+  }
+}
 
 export default Routes
 
